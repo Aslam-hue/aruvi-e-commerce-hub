@@ -172,7 +172,7 @@ const Shop = ({ section }: ShopProps) => {
   return (
     <div className="min-h-screen flex flex-col">
       {/* Hero Banner */}
-      <div className={`${gradientClass} text-white py-12 relative overflow-hidden`}>
+      <div className={`${gradientClass} text-white py-8 md:py-12 relative overflow-hidden`}>
         <div className="absolute inset-0 opacity-20">
           <img src={heroImage} alt={section} className="w-full h-full object-cover" />
         </div>
@@ -180,7 +180,7 @@ const Shop = ({ section }: ShopProps) => {
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className={`text-4xl md:text-5xl font-bold mb-2 ${section === 'furniture' ? "font-['Playfair_Display']" : ""}`}
+            className={`text-3xl md:text-4xl lg:text-5xl font-bold mb-2 ${section === 'furniture' ? "font-['Playfair_Display']" : ""}`}
           >
             {section === 'electronics' ? 'Electronics Store' : 'Furniture Collection'}
           </motion.h1>
@@ -188,7 +188,7 @@ const Shop = ({ section }: ShopProps) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-lg opacity-90"
+            className="text-base md:text-lg opacity-90"
           >
             {section === 'electronics' 
               ? 'Discover the latest in home electronics'
