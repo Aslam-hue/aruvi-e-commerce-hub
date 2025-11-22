@@ -11,6 +11,18 @@ import Admin from "./pages/Admin";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 
+// Electronics Admin
+import ElectronicsAdmin from "./pages/admin/electronics";
+import AddElectronicsProduct from "./pages/admin/electronics/AddProduct";
+import ManageElectronicsProducts from "./pages/admin/electronics/ManageProducts";
+import EditElectronicsProduct from "./pages/admin/electronics/EditProduct";
+
+// Furniture Admin
+import FurnitureAdmin from "./pages/admin/furniture";
+import AddFurnitureProduct from "./pages/admin/furniture/AddProduct";
+import ManageFurnitureProducts from "./pages/admin/furniture/ManageProducts";
+import EditFurnitureProduct from "./pages/admin/furniture/EditProduct";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -22,14 +34,26 @@ const App = () => (
         <div className="flex flex-col min-h-screen">
           <Navbar />
           <main className="flex-1">
-            <Routes>
-              <Route path="/" element={<Landing />} />
-              <Route path="/electronics" element={<Shop section="electronics" />} />
-              <Route path="/furniture" element={<Shop section="furniture" />} />
-              <Route path="/admin" element={<Admin />} />
-              <Route path="/auth" element={<Auth />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
+          <Routes>
+            <Route path="/" element={<Landing />} />
+            <Route path="/electronics" element={<Shop section="electronics" />} />
+            <Route path="/furniture" element={<Shop section="furniture" />} />
+            
+            {/* Admin Routes */}
+            <Route path="/admin" element={<Admin />} />
+            <Route path="/admin/electronics" element={<ElectronicsAdmin />} />
+            <Route path="/admin/electronics/add" element={<AddElectronicsProduct />} />
+            <Route path="/admin/electronics/manage" element={<ManageElectronicsProducts />} />
+            <Route path="/admin/electronics/edit/:id" element={<EditElectronicsProduct />} />
+            
+            <Route path="/admin/furniture" element={<FurnitureAdmin />} />
+            <Route path="/admin/furniture/add" element={<AddFurnitureProduct />} />
+            <Route path="/admin/furniture/manage" element={<ManageFurnitureProducts />} />
+            <Route path="/admin/furniture/edit/:id" element={<EditFurnitureProduct />} />
+            
+            <Route path="/auth" element={<Auth />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
           </main>
           <Footer />
         </div>

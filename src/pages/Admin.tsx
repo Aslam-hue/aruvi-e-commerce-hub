@@ -1,12 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Plus, Edit, Trash, Lock, Eye, EyeOff } from "lucide-react";
+import { Lock, Eye, EyeOff, Zap, Armchair, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { productService } from "@/lib/supabase-utils";
-import { Product } from "@/types/product";
 import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
 
@@ -18,35 +15,19 @@ const Admin = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [products, setProducts] = useState<Product[]>([]);
-  const [search, setSearch] = useState("");
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      loadProducts();
-    }
-  }, [isAuthenticated]);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     if (password === ADMIN_PASSWORD) {
       setIsAuthenticated(true);
-      toast({ title: "Access granted" });
+      toast({ title: "✨ Access Granted", description: "Welcome to Admin Dashboard" });
     } else {
       toast({ 
-        title: "Access denied", 
+        title: "❌ Access Denied", 
         description: "Incorrect password",
         variant: "destructive" 
       });
     }
-  };
-
-  const loadProducts = async () => {
-    setLoading(true);
-    const data = await productService.getProducts();
-    setProducts(data);
-    setLoading(false);
   };
 
   if (!isAuthenticated) {
@@ -137,118 +118,160 @@ const Admin = () => {
     );
   }
 
+  // Dashboard with 2 category cards
+  const categories = [
+    {
+      name: "Electronics",
+      icon: Zap,
+      path: "/admin/electronics",
+      gradient: "from-electronics-primary via-blue-600 to-cyan-500",
+      glowColor: "shadow-[0_0_40px_rgba(2,132,199,0.4)]"
+    },
+    {
+      name: "Furniture",
+      icon: Armchair,
+      path: "/admin/furniture",
+      gradient: "from-furniture-primary via-amber-600 to-orange-500",
+      glowColor: "shadow-[0_0_40px_rgba(217,119,6,0.4)]"
+    }
+  ];
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-electronics-bg via-background to-furniture-bg py-8">
-      {/* Glassmorphism Container */}
-      <div className="container mx-auto px-4">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black relative overflow-hidden">
+      {/* Animated background effects */}
+      <div className="absolute inset-0 opacity-30">
+        <motion.div
+          animate={{
+            backgroundPosition: ['0% 0%', '100% 100%', '0% 0%'],
+          }}
+          transition={{ duration: 20, repeat: Infinity }}
+          className="absolute inset-0"
+          style={{
+            backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px)',
+            backgroundSize: '50px 50px',
+          }}
+        />
+      </div>
+
+      <div className="container mx-auto px-4 py-12 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="backdrop-blur-xl bg-white/60 dark:bg-gray-900/60 border border-white/20 rounded-3xl shadow-2xl p-6 md:p-8"
+          className="text-center mb-16"
         >
-          <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-8">
-            <div>
-              <h1 className="text-3xl md:text-4xl font-bold mb-2">Admin Dashboard</h1>
-              <p className="text-muted-foreground">Manage your product inventory</p>
-            </div>
-            <Button 
-              onClick={() => { 
-                toast({ title: "Feature coming soon", description: "Product addition will be available shortly" }); 
-              }}
-              className="bg-gradient-to-r from-electronics-primary to-furniture-primary hover:opacity-90"
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ type: "spring", delay: 0.2 }}
+            className="inline-flex items-center gap-2 mb-4"
+          >
+            <Sparkles className="h-8 w-8 text-yellow-400" />
+            <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent">
+              Admin Dashboard
+            </h1>
+            <Sparkles className="h-8 w-8 text-yellow-400" />
+          </motion.div>
+          <p className="text-gray-400 text-lg">Select a category to manage</p>
+        </motion.div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+          {categories.map((category, index) => (
+            <motion.div
+              key={category.name}
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.2, type: "spring" }}
+              whileHover={{ y: -10 }}
             >
-              <Plus className="h-4 w-4 mr-2" />
-              Add Product
-            </Button>
-          </div>
+              <Card
+                className={`group relative overflow-hidden backdrop-blur-xl bg-white/5 border-white/10 hover:border-white/30 transition-all duration-500 cursor-pointer h-80 ${category.glowColor} hover:${category.glowColor}`}
+                onClick={() => navigate(category.path)}
+              >
+                {/* Gradient overlay */}
+                <div className={`absolute inset-0 bg-gradient-to-br ${category.gradient} opacity-0 group-hover:opacity-20 transition-opacity duration-500`} />
+                
+                {/* Animated border glow */}
+                <motion.div
+                  className={`absolute inset-0 rounded-lg bg-gradient-to-r ${category.gradient} opacity-0 group-hover:opacity-30 blur-xl`}
+                  animate={{
+                    scale: [1, 1.1, 1],
+                  }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                />
 
-          <Tabs defaultValue="electronics" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-2 bg-white/50 backdrop-blur-sm">
-              <TabsTrigger value="electronics" className="data-[state=active]:bg-electronics-primary data-[state=active]:text-white">
-                Electronics
-              </TabsTrigger>
-              <TabsTrigger value="furniture" className="data-[state=active]:bg-furniture-primary data-[state=active]:text-white">
-                Furniture
-              </TabsTrigger>
-            </TabsList>
+                <div className="relative h-full flex flex-col items-center justify-center p-8 z-10">
+                  {/* Icon with glow */}
+                  <motion.div
+                    whileHover={{ rotate: 360, scale: 1.2 }}
+                    transition={{ duration: 0.6 }}
+                    className={`mb-6 p-8 rounded-3xl bg-gradient-to-br ${category.gradient} shadow-2xl`}
+                  >
+                    <category.icon className="h-20 w-20 text-white" />
+                  </motion.div>
 
-            {['electronics', 'furniture'].map(section => (
-              <TabsContent key={section} value={section}>
-                <Card className="backdrop-blur-sm bg-white/40 border-white/30 p-4 md:p-6">
-                  <Input
-                    placeholder="Search products..."
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                    className="mb-6 bg-white/50 backdrop-blur-sm border-white/30"
-                  />
-                  
-                  {loading ? (
-                    <div className="text-center py-12">
-                      <p className="text-muted-foreground">Loading products...</p>
-                    </div>
-                  ) : (
-                    <div className="space-y-4">
-                      {products
-                        .filter(p => p.section === section && p.title.toLowerCase().includes(search.toLowerCase()))
-                        .map((product, index) => (
-                          <motion.div
-                            key={product.id}
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: index * 0.05 }}
-                            className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 border border-white/20 rounded-xl backdrop-blur-sm bg-white/30 hover:bg-white/50 transition-colors gap-4"
-                          >
-                            <div className="flex gap-4 items-center flex-1 w-full sm:w-auto">
-                              {product.images[0] && (
-                                <img 
-                                  src={product.images[0]} 
-                                  alt={product.title} 
-                                  className="w-16 h-16 object-cover rounded-lg shadow-md flex-shrink-0" 
-                                />
-                              )}
-                              <div className="min-w-0 flex-1">
-                                <h3 className="font-semibold truncate">{product.title}</h3>
-                                <p className="text-sm text-muted-foreground">{product.category} • ₹{product.price.toLocaleString()}</p>
-                              </div>
-                            </div>
-                            <div className="flex gap-2 w-full sm:w-auto">
-                              <Button 
-                                size="sm" 
-                                variant="outline" 
-                                onClick={() => toast({ title: "Edit feature coming soon" })}
-                                className="flex-1 sm:flex-initial bg-white/50 backdrop-blur-sm border-white/30"
-                              >
-                                <Edit className="h-4 w-4 sm:mr-0 md:mr-2" />
-                                <span className="hidden md:inline">Edit</span>
-                              </Button>
-                              <Button 
-                                size="sm" 
-                                variant="destructive" 
-                                onClick={async () => {
-                                  await productService.deleteProduct(product.id);
-                                  loadProducts();
-                                  toast({ title: "Product deleted" });
-                                }}
-                                className="flex-1 sm:flex-initial"
-                              >
-                                <Trash className="h-4 w-4 sm:mr-0 md:mr-2" />
-                                <span className="hidden md:inline">Delete</span>
-                              </Button>
-                            </div>
-                          </motion.div>
-                        ))}
-                      
-                      {products.filter(p => p.section === section && p.title.toLowerCase().includes(search.toLowerCase())).length === 0 && (
-                        <div className="text-center py-12">
-                          <p className="text-muted-foreground">No products found</p>
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </Card>
-              </TabsContent>
-            ))}
-          </Tabs>
+                  {/* Title */}
+                  <h2 className="text-4xl font-bold text-white mb-4 group-hover:scale-110 transition-transform">
+                    {category.name}
+                  </h2>
+
+                  {/* Animated arrow */}
+                  <motion.div
+                    className="text-gray-400 text-sm flex items-center gap-2"
+                    animate={{ x: [0, 10, 0] }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                  >
+                    <span>Manage Products</span>
+                    <span>→</span>
+                  </motion.div>
+
+                  {/* Hover effect particles */}
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity">
+                    {[...Array(6)].map((_, i) => (
+                      <motion.div
+                        key={i}
+                        className="absolute w-2 h-2 bg-white rounded-full"
+                        initial={{
+                          x: "50%",
+                          y: "50%",
+                          opacity: 0,
+                        }}
+                        animate={{
+                          x: `${Math.random() * 100}%`,
+                          y: `${Math.random() * 100}%`,
+                          opacity: [0, 1, 0],
+                        }}
+                        transition={{
+                          duration: 2,
+                          repeat: Infinity,
+                          delay: i * 0.2,
+                        }}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </Card>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Logout button */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.6 }}
+          className="text-center mt-12"
+        >
+          <Button
+            variant="outline"
+            onClick={() => {
+              setIsAuthenticated(false);
+              setPassword("");
+              toast({ title: "Logged out successfully" });
+            }}
+            className="bg-white/5 border-white/10 text-white hover:bg-white/10 backdrop-blur-xl"
+          >
+            ← Logout
+          </Button>
         </motion.div>
       </div>
     </div>
