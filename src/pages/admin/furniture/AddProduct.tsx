@@ -147,7 +147,7 @@ export default function AddFurnitureProduct() {
 
       // build product payload (only fields you want)
       const payload = {
-        section: "furniture",
+        section: "furniture" as const,
         title: formData.title,
         slug,
         brand: formData.brand || undefined,

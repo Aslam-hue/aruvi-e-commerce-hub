@@ -61,8 +61,8 @@ export default function AddElectronicsProduct() {
         `image-${Date.now()}-${i}.jpg`
       );
 
-      const link = await productService.uploadImage(file);
-      if (link) uploadedUrls.push(link);
+      const links = await productService.uploadImages([file]);
+      if (links.length > 0) uploadedUrls.push(...links);
     }
 
     return uploadedUrls;
