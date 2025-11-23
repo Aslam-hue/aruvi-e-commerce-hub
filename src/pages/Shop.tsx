@@ -170,12 +170,10 @@ const Shop = ({ section }: ShopProps) => {
   const gradientClass = section === 'electronics' ? 'gradient-electronics' : 'gradient-furniture';
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-gray-50">
       {/* Hero Banner */}
-      <div className={`${gradientClass} text-white py-8 md:py-12 relative overflow-hidden`}>
-        <div className="absolute inset-0 opacity-20">
-          <img src={heroImage} alt={section} className="w-full h-full object-cover" />
-        </div>
+      <div className={`${gradientClass} text-white py-12 md:py-16 relative overflow-hidden`}>
+        <div className="absolute inset-0 bg-black/10" />
         <div className="container mx-auto px-4 relative z-10">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
