@@ -8,6 +8,7 @@ import { useToast } from "@/hooks/use-toast";
 import { productService } from "@/lib/supabase-utils";
 import { Product } from "@/types/product";
 import { ConfirmDialog } from "../components/ConfirmDialog";
+import { AdminLayout } from "@/components/admin/AdminLayout";
 import { motion } from "framer-motion";
 
 export default function ManageElectronicsProducts() {
@@ -53,8 +54,8 @@ export default function ManageElectronicsProducts() {
   const categories = Array.from(new Set(products.map(p => p.category)));
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900/20 to-black py-8">
-      <div className="container mx-auto px-4">
+    <AdminLayout>
+      <div className="p-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -65,18 +66,18 @@ export default function ManageElectronicsProducts() {
               <Button
                 variant="ghost"
                 onClick={() => navigate("/admin")}
-                className="text-white hover:bg-white/10"
+                className="hover:bg-gray-100"
               >
                 <ArrowLeft className="h-5 w-5" />
               </Button>
               <div>
-                <h1 className="text-4xl font-bold text-white">Electronics Products</h1>
-                <p className="text-gray-400 mt-1">{filteredProducts.length} products found</p>
+                <h1 className="text-3xl font-bold text-gray-900">Electronics Products</h1>
+                <p className="text-gray-500 mt-1">{filteredProducts.length} products found</p>
               </div>
             </div>
             <Button
               onClick={() => navigate("/admin/electronics/add")}
-              className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 shadow-lg shadow-blue-500/50"
+              className="bg-blue-600 hover:bg-blue-700"
             >
               <Plus className="h-5 w-5 mr-2" />
               Add Product
@@ -84,7 +85,7 @@ export default function ManageElectronicsProducts() {
           </div>
 
           {/* Filters */}
-          <Card className="backdrop-blur-xl bg-white/5 border-white/10 p-6 mb-6">
+          <Card className="p-6 mb-6 bg-white border-gray-200">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
@@ -92,17 +93,17 @@ export default function ManageElectronicsProducts() {
                   placeholder="Search by name or brand..."
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  className="pl-10 bg-white/10 border-white/20 text-white placeholder:text-gray-400"
+                  className="pl-10"
                 />
               </div>
               <select
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="h-10 px-3 rounded-md bg-white/10 border border-white/20 text-white"
+                className="h-10 px-3 rounded-md border border-input bg-background"
               >
-                <option value="" className="bg-gray-900">All Categories</option>
+                <option value="">All Categories</option>
                 {categories.map((cat) => (
-                  <option key={cat} value={cat} className="bg-gray-900">{cat}</option>
+                  <option key={cat} value={cat}>{cat}</option>
                 ))}
               </select>
             </div>
@@ -112,11 +113,11 @@ export default function ManageElectronicsProducts() {
           {loading ? (
             <div className="text-center py-20">
               <div className="inline-block h-12 w-12 animate-spin rounded-full border-4 border-solid border-blue-500 border-r-transparent"></div>
-              <p className="text-white mt-4">Loading products...</p>
+              <p className="text-gray-600 mt-4">Loading products...</p>
             </div>
           ) : filteredProducts.length === 0 ? (
-            <Card className="backdrop-blur-xl bg-white/5 border-white/10 p-12 text-center">
-              <p className="text-gray-400 text-lg">No products found</p>
+            <Card className="p-12 text-center bg-white">
+              <p className="text-gray-500 text-lg">No products found</p>
             </Card>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -127,9 +128,9 @@ export default function ManageElectronicsProducts() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.05 }}
                 >
-                  <Card className="group backdrop-blur-xl bg-white/5 border-white/10 hover:border-blue-500/50 transition-all duration-300 overflow-hidden hover:shadow-lg hover:shadow-blue-500/20">
+                  <Card className="group bg-white border-gray-200 hover:border-blue-500 transition-all duration-300 overflow-hidden hover:shadow-xl">
                     {/* Image */}
-                    <div className="relative aspect-square overflow-hidden bg-white/5">
+                    <div className="relative aspect-square overflow-hidden bg-gray-50">
                       {product.images[0] ? (
                         <img
                           src={product.images[0]}
@@ -137,7 +138,7 @@ export default function ManageElectronicsProducts() {
                           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                         />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center text-gray-500">
+                        <div className="w-full h-full flex items-center justify-center text-gray-400">
                           No Image
                         </div>
                       )}
@@ -149,14 +150,14 @@ export default function ManageElectronicsProducts() {
                     {/* Content */}
                     <div className="p-4 space-y-3">
                       <div>
-                        <h3 className="font-bold text-white text-lg line-clamp-2 group-hover:text-blue-400 transition-colors">
+                        <h3 className="font-bold text-gray-900 text-lg line-clamp-2 group-hover:text-blue-600 transition-colors">
                           {product.title}
                         </h3>
-                        <p className="text-sm text-gray-400">{product.brand}</p>
+                        <p className="text-sm text-gray-500">{product.brand}</p>
                       </div>
 
                       <div className="flex items-center justify-between">
-                        <span className="text-2xl font-bold text-blue-400">
+                        <span className="text-2xl font-bold text-blue-600">
                           ₹{product.price.toLocaleString()}
                         </span>
                         {product.model_no && (
@@ -169,7 +170,7 @@ export default function ManageElectronicsProducts() {
                         <Button
                           size="sm"
                           variant="outline"
-                          className="flex-1 bg-white/10 border-white/20 text-white hover:bg-blue-600 hover:border-blue-600"
+                          className="flex-1 hover:bg-blue-50 hover:border-blue-600 hover:text-blue-600"
                           onClick={() => navigate(`/admin/electronics/edit/${product.id}`)}
                         >
                           <Edit className="h-4 w-4 mr-2" />
@@ -200,6 +201,6 @@ export default function ManageElectronicsProducts() {
         title="Delete Product?"
         description="This action cannot be undone. The product will be permanently deleted."
       />
-    </div>
+    </AdminLayout>
   );
 }

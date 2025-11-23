@@ -11,7 +11,7 @@ import { ConfirmDialog } from "../components/ConfirmDialog";
 import { AdminLayout } from "@/components/admin/AdminLayout";
 import { motion } from "framer-motion";
 
-export default function ManageFurnitureProducts() {
+export default function ManageKitchenProducts() {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [products, setProducts] = useState<Product[]>([]);
@@ -26,7 +26,7 @@ export default function ManageFurnitureProducts() {
 
   const loadProducts = async () => {
     setLoading(true);
-    const data = await productService.getProducts("furniture");
+    const data = await productService.getProducts("kitchen" as any);
     setProducts(data);
     setLoading(false);
   };
@@ -71,13 +71,13 @@ export default function ManageFurnitureProducts() {
                 <ArrowLeft className="h-5 w-5" />
               </Button>
               <div>
-                <h1 className="text-3xl font-bold text-gray-900">Furniture Products</h1>
+                <h1 className="text-3xl font-bold text-gray-900">Kitchen Appliances</h1>
                 <p className="text-gray-500 mt-1">{filteredProducts.length} products found</p>
               </div>
             </div>
             <Button
-              onClick={() => navigate("/admin/furniture/add")}
-              className="bg-amber-600 hover:bg-amber-700"
+              onClick={() => navigate("/admin/kitchen/add")}
+              className="bg-green-600 hover:bg-green-700"
             >
               <Plus className="h-5 w-5 mr-2" />
               Add Product
@@ -112,7 +112,7 @@ export default function ManageFurnitureProducts() {
           {/* Products Grid */}
           {loading ? (
             <div className="text-center py-20">
-              <div className="inline-block h-12 w-12 animate-spin rounded-full border-4 border-solid border-amber-500 border-r-transparent"></div>
+              <div className="inline-block h-12 w-12 animate-spin rounded-full border-4 border-solid border-green-500 border-r-transparent"></div>
               <p className="text-gray-600 mt-4">Loading products...</p>
             </div>
           ) : filteredProducts.length === 0 ? (
@@ -128,7 +128,7 @@ export default function ManageFurnitureProducts() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.05 }}
                 >
-                  <Card className="group bg-white border-gray-200 hover:border-amber-500 transition-all duration-300 overflow-hidden hover:shadow-xl">
+                  <Card className="group bg-white border-gray-200 hover:border-green-500 transition-all duration-300 overflow-hidden hover:shadow-xl">
                     {/* Image */}
                     <div className="relative aspect-square overflow-hidden bg-gray-50">
                       {product.images[0] ? (
@@ -142,7 +142,7 @@ export default function ManageFurnitureProducts() {
                           No Image
                         </div>
                       )}
-                      <div className="absolute top-2 right-2 bg-amber-600 text-white text-xs px-2 py-1 rounded-full">
+                      <div className="absolute top-2 right-2 bg-green-600 text-white text-xs px-2 py-1 rounded-full">
                         {product.category}
                       </div>
                     </div>
@@ -150,20 +150,18 @@ export default function ManageFurnitureProducts() {
                     {/* Content */}
                     <div className="p-4 space-y-3">
                       <div>
-                        <h3 className="font-bold text-gray-900 text-lg line-clamp-2 group-hover:text-amber-600 transition-colors">
+                        <h3 className="font-bold text-gray-900 text-lg line-clamp-2 group-hover:text-green-600 transition-colors">
                           {product.title}
                         </h3>
-                        {product.material && (
-                          <p className="text-sm text-gray-500">{product.material}</p>
-                        )}
+                        <p className="text-sm text-gray-500">{product.brand}</p>
                       </div>
 
                       <div className="flex items-center justify-between">
-                        <span className="text-2xl font-bold text-amber-600">
+                        <span className="text-2xl font-bold text-green-600">
                           ₹{product.price.toLocaleString()}
                         </span>
-                        {product.color && (
-                          <span className="text-xs text-gray-500">{product.color}</span>
+                        {product.model_no && (
+                          <span className="text-xs text-gray-500">{product.model_no}</span>
                         )}
                       </div>
 
@@ -172,8 +170,8 @@ export default function ManageFurnitureProducts() {
                         <Button
                           size="sm"
                           variant="outline"
-                          className="flex-1 hover:bg-amber-50 hover:border-amber-600 hover:text-amber-600"
-                          onClick={() => navigate(`/admin/furniture/edit/${product.id}`)}
+                          className="flex-1 hover:bg-green-50 hover:border-green-600 hover:text-green-600"
+                          onClick={() => navigate(`/admin/kitchen/edit/${product.id}`)}
                         >
                           <Edit className="h-4 w-4 mr-2" />
                           Edit

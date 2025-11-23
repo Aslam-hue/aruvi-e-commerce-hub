@@ -122,18 +122,18 @@ const Landing = () => {
               </motion.div>
 
               {/* Trust Badges */}
-              <motion.div variants={item} className="flex flex-wrap gap-4 pt-4">
-                <div className="flex items-center gap-2 text-sm">
-                  <div className="w-10 h-10 rounded-full bg-green-500/10 flex items-center justify-center">
-                    <Shield className="h-5 w-5 text-green-600" />
+              <motion.div variants={item} className="flex flex-wrap gap-4 md:gap-6 pt-4">
+                <div className="flex items-center gap-2 text-sm md:text-base">
+                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-green-500/20 flex items-center justify-center">
+                    <Shield className="h-5 w-5 md:h-6 md:w-6 text-green-600" />
                   </div>
-                  <span className="font-medium">1 Year Warranty</span>
+                  <span className="font-semibold">1 Year Warranty</span>
                 </div>
-                <div className="flex items-center gap-2 text-sm">
-                  <div className="w-10 h-10 rounded-full bg-blue-500/10 flex items-center justify-center">
-                    <Truck className="h-5 w-5 text-blue-600" />
+                <div className="flex items-center gap-2 text-sm md:text-base">
+                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-blue-500/20 flex items-center justify-center">
+                    <Truck className="h-5 w-5 md:h-6 md:w-6 text-blue-600" />
                   </div>
-                  <span className="font-medium">Free Delivery</span>
+                  <span className="font-semibold">Free Delivery</span>
                 </div>
               </motion.div>
             </motion.div>

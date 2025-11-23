@@ -1,6 +1,6 @@
 export interface Product {
   id: string;
-  section: 'electronics' | 'furniture';
+  section: 'electronics' | 'furniture' | 'kitchen';
   title: string;
   description?: string;
   price: number;

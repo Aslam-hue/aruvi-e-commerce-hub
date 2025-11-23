@@ -20,6 +20,12 @@ import AddFurnitureProduct from "./pages/admin/furniture/AddProduct";
 import ManageFurnitureProducts from "./pages/admin/furniture/ManageProducts";
 import EditFurnitureProduct from "./pages/admin/furniture/EditProduct";
 
+// Kitchen Admin
+import KitchenAdmin from "./pages/admin/kitchen";
+import AddKitchenProduct from "./pages/admin/kitchen/AddProduct";
+import ManageKitchenProducts from "./pages/admin/kitchen/ManageProducts";
+import EditKitchenProduct from "./pages/admin/kitchen/EditProduct";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -44,6 +50,10 @@ const App = () => (
             <Route path="/admin/furniture/add" element={<AddFurnitureProduct />} />
             <Route path="/admin/furniture/manage" element={<ManageFurnitureProducts />} />
             <Route path="/admin/furniture/edit/:id" element={<EditFurnitureProduct />} />
+            <Route path="/admin/kitchen" element={<KitchenAdmin />} />
+            <Route path="/admin/kitchen/add" element={<AddKitchenProduct />} />
+            <Route path="/admin/kitchen/manage" element={<ManageKitchenProducts />} />
+            <Route path="/admin/kitchen/edit/:id" element={<EditKitchenProduct />} />
             
             <Route path="/auth" element={<Auth />} />
             <Route path="*" element={<NotFound />} />
