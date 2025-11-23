@@ -73,6 +73,22 @@ export const productService = {
     }
   },
 
+  async getProductById(id: string): Promise<Product | null> {
+    try {
+      const { data, error } = await supabase
+        .from("products")
+        .select("*")
+        .eq("id", id)
+        .maybeSingle();
+
+      if (error) throw error;
+      return data as Product | null;
+    } catch (error) {
+      console.error("❌ Error fetching product by ID:", error);
+      return null;
+    }
+  },
+
   async addProduct(
     product: Omit<Product, "id" | "created_at" | "updated_at">
   ): Promise<Product | null> {
